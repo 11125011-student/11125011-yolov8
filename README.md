@@ -1,3 +1,4 @@
+md
 ---
 
 # 實戰 | 使用YOLOv8實現面部表情識別
@@ -19,7 +20,7 @@
 - 深度學習架構：Ultralytics YOLOv8
 - 資料集來源：<src="https://universe.roboflow.com/emotions-dectection/human-face-emotions/dataset/30/download/yolov8" />
 - 資料參考:<src="https://docs.ultralytics.com/modes/train/" />
-- <a src="[your-repo.github.io](https://docs.ultralytics.com/modes/train/)">Ultralytics YOLO Docs</a>
+- <a href="[your-repo.github.io](https://docs.ultralytics.com/modes/train/)">Ultralytics YOLO Docs</a>
 
 ## 步驟 1：導入必要的函式庫
 
