@@ -15,6 +15,10 @@
 
 ## 2.工具
 
+- 平台：Google Colab
+- 深度學習架構：Ultralytics YOLOv8
+- 資料集來源：<src="https://universe.roboflow.com/emotions-dectection/human-face-emotions/dataset/30/download/yolov8" />
+- 資料參考:<src="https://docs.ultralytics.com/modes/train/" />
 
 ## 步驟 1：導入必要的函式庫
 
