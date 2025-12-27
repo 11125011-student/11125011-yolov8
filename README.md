@@ -1,8 +1,17 @@
 ---
 
-# 使用 Google Colab 與人工神經網路 (ANN) 實現人臉識別期末報告
+# 實戰 | 使用YOLOv8實現面部表情識別
 
-此報告使用 **Olivetti Faces** 資料庫，在 Google Colab (GPU)環境下建立一個多層感知器 (MLP) 人臉識別系統。
+此報告使用 Ultralytics **YOLOv8** 進行「人臉表情」偵測：模型輸出每張臉的 bounding box，並同時分類表情（如 angry/happy/sad/neutral…）。
+
+---
+
+## 1.目標
+
+- 以 YOLOv8 完成 **臉部表情偵測（Object Detection）**
+- 輸出：臉部位置（bbox） + 表情類別 + confidence
+
+---
 
 ## 步驟 1：導入必要的函式庫
 
