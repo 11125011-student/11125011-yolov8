@@ -49,7 +49,7 @@ Ultralytics 提供一整套流程（train/val/predict/export），你才能用�
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_3.png?raw=true" />
 
-### 4-1.預先建立資料夾，以免解壓後找不到路徑
+### 4-1:預先建立資料夾，以免解壓後找不到路徑
 - YOLO 訓練需要固定的資料夾結構（images/labels + train/val 或 valid）
 - 路徑固定後，`data.yaml` 才不會一直找不到（這是新手最常卡的點）
 ```python
@@ -59,13 +59,13 @@ Ultralytics 提供一整套流程（train/val/predict/export），你才能用�
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-1.png?raw=true" />
 
-### 4-2.確認解壓後結構
+### 4-2:確認解壓後結構
 ```python
 !ls /content/
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-2.png?raw=true" />
 
-### 4-3.檢查路徑與類別
+### 4-3:檢查路徑與類別
 Ultralytics 會靠 `YAML` 讀到：
 - train/val（或 valid）路徑
 - 類別數 `nc`
@@ -76,7 +76,7 @@ Ultralytics 會靠 `YAML` 讀到：
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-3.png?raw=true" />
 
-### 5-1.開始訓練
+### 5-1:開始訓練
 - 用 yolov8n：在 Colab 時間/資源有限時，先跑通流程、先有成果，再談調參。
 - epochs=10：作業展示用；若要提升精度再加 epochs。
 - imgsz=640：偵測常用解析度，太小可能抓不到臉部細節，太大訓練慢。
@@ -94,7 +94,7 @@ Ultralytics 會靠 `YAML` 讀到：
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_5-1.png?raw=true" />
 
-### 5-2.確認訓練輸出資料夾
+### 5-2:確認訓練輸出資料夾
 ```python
 !ls -lah "/content/drive/MyDrive/yolo_project"
 ```
@@ -103,19 +103,19 @@ EXP_DIR = "/content/drive/MyDrive/yolo_project/exp14"  # <<< 如果不是 exp1�
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_5-2.png?raw=true" />
 
-### 5-3.檢查 weights 是否存在
+### 5-3:檢查 weights 是否存在
 ```python
 !ls -lah "/content/drive/MyDrive/yolo_project/exp14/weights"
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_5-3.png?raw=true" />
 
-### 6-1.觀看訓練結果圖
+### 6-1:觀看訓練結果圖
 ```python
 !ls -lah "/content/drive/MyDrive/yolo_project/exp14" | grep -E "\.png|\.jpg" || true
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-1.png?raw=true" />
 
-### 6-2.顯示圖片
+### 6-2:顯示圖片
 報告最重要產物就是：
 - `best.pt`（最佳權重）
 - `results.png`（訓練曲線）
@@ -151,7 +151,7 @@ for f in files:
 輸出「驗證集預測結果」:拿來做報告展示、或肉眼檢查模型是不是在亂框/漏框，通常可視為「驗證集的隨機樣本」
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-4.png?raw=true" />
 
-### 7-1.用 best.pt 做推論（predict），先用 valid/images
+### 7-1:用 best.pt 做推論（predict），先用 valid/images
 ```python
 from ultralytics import YOLO
 
@@ -163,7 +163,7 @@ model.predict(source=SOURCE, imgsz=640, conf=0.5, max_det=100, save=True)
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_7-1.png?raw=true" />
 
-### 7-2.找推論輸出資料夾
+### 7-2:找推論輸出資料夾
 期末展示一定要有「實際預測框框 + 表情類別」圖片。Predict mode 也是官方標準流程。
 ```python
 !ls -lt /content/runs/detect | head -n 20
@@ -173,7 +173,7 @@ model.predict(source=SOURCE, imgsz=640, conf=0.5, max_det=100, save=True)
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_7-2.png?raw=true" />
 
-### 8.把推論結果存回 Drive
+### 8:把推論結果存回 Drive
 `runs` 在 Colab 暫存，不搬回 Drive 就沒了；而 GitHub 只需要放幾張代表性成果圖，不用放整包資料集。
 ```python
 import shutil
@@ -186,7 +186,7 @@ print("Saved to:", dst)
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_8.png?raw=true" />
 
-### 9.(可選)匯出模型（ONNX）
+### 9:(可選)匯出模型（ONNX）
 **ONNX** 方便未來部署到不同平台/推論框架
 ```python
 !yolo export model="/content/drive/MyDrive/yolo_project/exp1/weights/best.pt" format=onnx
@@ -213,11 +213,11 @@ Ultralytics 在訓練與驗證階段通常會輸出以下指標（可直接引�
 
 ## 五、討論：優勢與限制
 
-### 優勢
+### 1:優勢
 - 一個模型同時做到 **多臉定位 + 表情分類**
 - 流程完整：train → predict → export，容易重現與展示
 
-### 限制
+### 2:限制
 - 表情本身是「細粒度差異」，偵測框內的微表情可能需要更高解析度或更精細資料
 - 類別可能不平衡（某些表情較少），導致模型偏向常見類別
 - 只用 yolov8n + epochs=10 主要是完成作業展示；若追求更高精度需更多訓練與調參
