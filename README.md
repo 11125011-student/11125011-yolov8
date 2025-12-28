@@ -151,7 +151,7 @@ for f in files:
 輸出「驗證集預測結果」:拿來做報告展示、或肉眼檢查模型是不是在亂框/漏框，通常可視為「驗證集的隨機樣本」
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-4.png?raw=true" />
 
-### 7-1:用 best.pt 做推論（predict），先用 valid/images
+### 7-1 : 用 best.pt 做推論（predict），先用 valid/images
 ```python
 from ultralytics import YOLO
 
