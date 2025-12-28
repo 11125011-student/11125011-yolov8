@@ -32,9 +32,9 @@ YOLOv8 訓練是大量矩陣運算，需要顧及訓練速度
 <img width="900" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_1.png" />
 
 ### 2:掛載 Google Drive
-Colab 的 ˋcontentˋ 是暫存，重開就清掉；Drive 才能保存：
-- 資料集 ˋzipˋ
-- 訓練產出的 ˋbest.ptˋ、曲線圖、混淆矩陣
+Colab 的 'content' 是暫存，重開就清掉；Drive 才能保存：
+- 資料集 'zip'
+- 訓練產出的 'best.pt'、曲線圖、混淆矩陣
 - 推論結果圖片（方便放到 GitHub）
 ```python
 from google.colab import drive
