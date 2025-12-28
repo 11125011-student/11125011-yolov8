@@ -49,7 +49,36 @@ Ultralytics 提供一整套流程（train/val/predict/export），你才能用�
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_3.png?raw=true" />
 
-### 
+### 4-1.預先建立資料夾，以免解壓後找不到路徑
+- YOLO 訓練需要固定的資料夾結構（images/labels + train/val 或 valid）
+- 路徑固定後，data.yaml 才不會一直找不到（這是新手最常卡的點）
+```python
+!mkdir -p /content/datasets
+!unzip -q "/content/drive/MyDrive/AI_114/Emotions.zip" -d /content/datasets
+!ls -lah /content/datasets | head
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-1.png?raw=true" />
+
+### 4-2.確認解壓後結構
+```python
+!ls /content/
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-2.png?raw=true" />
+
+### 4-3.檢查路徑與類別
+Ultralytics 會靠 YAML 讀到：
+- train/val（或 valid）路徑
+- 類別數 nc
+- 類別名稱 names
+沒有或寫錯就會直接 train 失敗。
+```python
+!cat /content/datasets/data.yaml
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-3.png?raw=true" />
+
+
+
+
 ---
 
 ## 步驟 2：獲取並載入資料集
