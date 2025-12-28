@@ -142,7 +142,7 @@ for f in files:
         plt.show()
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-2.png?raw=true" />
-輸出**結果**:整個訓練過程的總覽記錄
+輸出**結果**:整個訓練過程的總覽記錄**訓練集**
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-1.png?raw=true" />
 輸出**混淆矩陣**:哪些表情最容易被誤判成哪些表情
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-2.png?raw=true" />
