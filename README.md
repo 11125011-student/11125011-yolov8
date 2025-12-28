@@ -18,7 +18,7 @@
 - 平台：Google Colab
 - 深度學習架構：Ultralytics YOLOv8
 - 資料集來源：<src="https://universe.roboflow.com/emotions-dectection/human-face-emotions/dataset/30/download/yolov8" />
-- 資料參考:<src="https://docs.ultralytics.com/modes/train/" />
+- 資料參考:<src="https://zhuanlan.zhihu.com/p/1927118824295102227" />
 
 ---
 
@@ -27,7 +27,9 @@
 
 Colab：執行階段 → 變更執行階段類型 → 硬體加速器選 GPU
 <img width="1359" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_1.png" />
-首先，我們需要載入用於數據處理、繪圖以及機器學習的核心套件。我們使用的是 `scikit-learn`，它是 Python 中最流行的機器學習工具箱。
+
+### 2:掛載 Google Drive
+<img width="1359" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_2.png?raw=true" />
 
 ```python
 import numpy as np
