@@ -142,13 +142,13 @@ for f in files:
         plt.show()
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-2.png?raw=true" />
-輸出**結果**:整個訓練過程的總覽記錄**訓練集**
+輸出「結果」:整個訓練過程的總覽記錄
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-1.png?raw=true" />
-輸出**混淆矩陣**:哪些表情最容易被誤判成哪些表情
+輸出「混淆矩陣」:哪些表情最容易被誤判成哪些表情
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-2.png?raw=true" />
-輸出**歸一化混淆矩陣**（比例版）:更容易看出每一類自己的誤判結構
+輸出「歸一化混淆矩陣」（比例版）:更容易看出每一類自己的誤判結構
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-3.png?raw=true" />
-輸出**驗證集預測結果**:拿來做報告展示、或肉眼檢查模型是不是在亂框/漏框，通常可視為「驗證集的隨機樣本」
+輸出「驗證集預測結果」:拿來做報告展示、或肉眼檢查模型是不是在亂框/漏框，通常可視為「驗證集的隨機樣本」
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-4.png?raw=true" />
 
 ### 7-1.用 best.pt 做推論（predict），先用 valid/images
@@ -194,6 +194,21 @@ print("Saved to:", dst)
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_9.png?raw=true" />
 
 ---
+
+## 四、評估方式與結果呈現建議
+
+Ultralytics 在訓練與驗證階段通常會輸出以下指標（可直接引用 runs/exp*/results.png）：
+
+- mAP（mAP50 / mAP50-95）：衡量偵測整體準確度
+- Precision：誤報（False Positive）控制能力
+- Recall：漏報（False Negative）控制能力
+
+另外，混淆矩陣可協助分析「哪些表情容易混淆」，常見案例：
+- neutral 與 content（或輕微微笑）邊界模糊
+- surprise 與 fear 在某些表情上相似
+
+> 建議在 GitHub `assets/` 放 3 張核心圖：results.png、confusion_matrix.png、demo_pred.jpg。
+
 
 ### 6-1.觀看訓練結果圖
 ```python
