@@ -34,7 +34,7 @@ YOLOv8 訓練是大量矩陣運算，需要顧及訓練速度
 ### 2:掛載 Google Drive
 Colab 的 'content' 是暫存，重開就清掉；Drive 才能保存：
 - 資料集 `zip`
-- 訓練產出的 ˋ best.ptˋ、曲線圖、混淆矩陣
+- 訓練產出的 `best.pt`、曲線圖、混淆矩陣
 - 推論結果圖片（方便放到 GitHub）
 ```python
 from google.colab import drive
