@@ -6,10 +6,12 @@
 
 ---
 
-## 一、目標
+## 一、動機與目標
 
-- 以 YOLOv8 完成 **臉部表情偵測（Object Detection）**
-- 輸出：臉部位置（bbox） + 表情類別 + confidence
+一般的表情辨識常以「分類」方式處理：輸入一張裁切好的臉 → 輸出表情。  
+但在真實場景（照片、監視器、課堂鏡頭）往往同時出現多張人臉，因此我們希望系統能做到：
+- 1. 在一張影像中 **自動找出所有人臉位置**（定位）
+- 2. 對每張人臉 **判斷其表情類別**（辨識）
 
 ---
 
@@ -22,27 +24,32 @@
 
 ---
 
-## 三、實際步驟 
-### 1：開 Google Colab + 開 GPU
+## 三、實際步驟與流程 
 
+### 1:開 Google Colab + 開 GPU
 Colab：執行階段 → 變更執行階段類型 → 硬體加速器選 GPU
+YOLOv8 訓練是大量矩陣運算，需要顧及訓練速度
 <img width="1359" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_1.png" />
 
 ### 2:掛載 Google Drive
+Colab 的 /content 是暫存，重開就清掉；Drive 才能保存：
+- 資料集 zip
+- 訓練產出的 best.pt、曲線圖、混淆矩陣
+- 推論結果圖片（方便放到 GitHub）
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+```
 <img width="1359" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_2.png?raw=true" />
 
+### 3:安裝 YOLOv8（Ultralytics）
+Ultralytics 提供一整套流程（train/val/predict/export），你才能用最標準的方式完成作業並寫得有依據。
 ```python
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.datasets import fetch_olivetti_faces
-from sklearn.model_selection import train_test_split
-from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import classification_report, confusion_matrix
-
+!pip install ultralytics
 ```
-<img width="935" height="268" alt="s1" src="https://github.com/user-attachments/assets/2a05d4bb-b300-49b6-a9ff-996e372b5a53" />
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_3.png?raw=true" />
 
+### 
 ---
 
 ## 步驟 2：獲取並載入資料集
