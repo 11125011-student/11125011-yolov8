@@ -26,7 +26,7 @@
 ### 1：開 Google Colab + 開 GPU
 
 Colab：執行階段 → 變更執行階段類型 → 硬體加速器選 GPU
-<img width="1359" height="595" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_1.png" />
+<img width="1359" height="700" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_1.png" />
 首先，我們需要載入用於數據處理、繪圖以及機器學習的核心套件。我們使用的是 `scikit-learn`，它是 Python 中最流行的機器學習工具箱。
 
 ```python
