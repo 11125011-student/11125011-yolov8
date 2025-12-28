@@ -59,13 +59,13 @@ Ultralytics 提供一整套流程（train/val/predict/export），你才能用�
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-1.png?raw=true" />
 
-### 4-2:確認解壓後結構
+### 4-2 : 確認解壓後結構
 ```python
 !ls /content/
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-2.png?raw=true" />
 
-### 4-3:檢查路徑與類別
+### 4-3 : 檢查路徑與類別
 Ultralytics 會靠 `YAML` 讀到：
 - train/val（或 valid）路徑
 - 類別數 `nc`
@@ -76,7 +76,7 @@ Ultralytics 會靠 `YAML` 讀到：
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-3.png?raw=true" />
 
-### 5-1:開始訓練
+### 5-1 : 開始訓練
 - 用 yolov8n：在 Colab 時間/資源有限時，先跑通流程、先有成果，再談調參。
 - epochs=10：作業展示用；若要提升精度再加 epochs。
 - imgsz=640：偵測常用解析度，太小可能抓不到臉部細節，太大訓練慢。
@@ -109,7 +109,7 @@ EXP_DIR = "/content/drive/MyDrive/yolo_project/exp14"  # <<< 如果不是 exp1�
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_5-3.png?raw=true" />
 
-### 6-1:觀看訓練結果圖
+### 6-1 : 觀看訓練結果圖
 ```python
 !ls -lah "/content/drive/MyDrive/yolo_project/exp14" | grep -E "\.png|\.jpg" || true
 ```
@@ -186,7 +186,7 @@ print("Saved to:", dst)
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_8.png?raw=true" />
 
-### 9:(可選)匯出模型（ONNX）
+### 9 : (可選)匯出模型（ONNX）
 **ONNX** 方便未來部署到不同平台/推論框架
 ```python
 !yolo export model="/content/drive/MyDrive/yolo_project/exp1/weights/best.pt" format=onnx
