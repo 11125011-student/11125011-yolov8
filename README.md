@@ -32,7 +32,7 @@ YOLOv8 訓練是大量矩陣運算，需要顧及訓練速度
 <img width="900" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_1.png" />
 
 ### 2:掛載 Google Drive
-Colab 的 'content' 是暫存，重開就清掉；Drive 才能保存：
+Colab 的 `content` 是暫存，重開就清掉；Drive 才能保存：
 - 資料集 `zip`
 - 訓練產出的 `best.pt`、曲線圖、混淆矩陣
 - 推論結果圖片（方便放到 GitHub）
@@ -51,7 +51,7 @@ Ultralytics 提供一整套流程（train/val/predict/export），你才能用�
 
 ### 4-1.預先建立資料夾，以免解壓後找不到路徑
 - YOLO 訓練需要固定的資料夾結構（images/labels + train/val 或 valid）
-- 路徑固定後，ˋdata.yamlˋ 才不會一直找不到（這是新手最常卡的點）
+- 路徑固定後，`data.yaml` 才不會一直找不到（這是新手最常卡的點）
 ```python
 !mkdir -p /content/datasets
 !unzip -q "/content/drive/MyDrive/AI_114/Emotions.zip" -d /content/datasets
@@ -66,10 +66,10 @@ Ultralytics 提供一整套流程（train/val/predict/export），你才能用�
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-2.png?raw=true" />
 
 ### 4-3.檢查路徑與類別
-Ultralytics 會靠 ˋYAMLˋ 讀到：
+Ultralytics 會靠 `YAML` 讀到：
 - train/val（或 valid）路徑
-- 類別數 ˋncˋ
-- 類別名稱 ˋnamesˋ
+- 類別數 `nc`
+- 類別名稱 `names`
 沒有或寫錯就會直接 train 失敗。
 ```python
 !cat /content/datasets/data.yaml
@@ -105,26 +105,55 @@ EXP_DIR = "/content/drive/MyDrive/yolo_project/exp14"  # <<< 如果不是 exp1�
 
 ### 5-3.檢查 weights 是否存在
 報告最重要產物就是：
-- ˋbest.ptˋ（最佳權重）
-- ˋresults.pngˋ（訓練曲線）
-- ˋconfusion_matrix.pngˋ（類別混淆）
+- `best.pt`（最佳權重）
+- `results.png`（訓練曲線）
+- `confusion_matrix.png`（類別混淆）
+這些就是你報告的「實驗結果圖」。
 ```python
 !ls -lah "/content/drive/MyDrive/yolo_project/exp14/weights"
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_5-3.png?raw=true" />
 
-### 4-3.檢查路徑與類別
-Ultralytics 會靠 ˋYAMLˋ 讀到：
-- train/val（或 valid）路徑
-- 類別數 ˋncˋ
-- 類別名稱 ˋnamesˋ
-沒有或寫錯就會直接 train 失敗。
+### 6-1.觀看訓練結果圖
 ```python
-!cat /content/datasets/data.yaml
+!ls -lah "/content/drive/MyDrive/yolo_project/exp14" | grep -E "\.png|\.jpg" || true
 ```
-<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-3.png?raw=true" />
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-1.png?raw=true" />
 
-### 
+### 6-2.顯示圖片
+```python
+from pathlib import Path
+from PIL import Image
+import matplotlib.pyplot as plt
+exp = Path(EXP_DIR)
+files = [
+    exp/"results.png",
+    exp/"confusion_matrix.png",
+    exp/"confusion_matrix_normalized.png",
+    exp/"val_batch0_pred.jpg"
+]
+for f in files:
+    if f.exists():
+        img = Image.open(f)
+        plt.figure(figsize=(10,6))
+        plt.imshow(img)
+        plt.axis("off")
+        plt.title(f.name)
+        plt.show()
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-2.png?raw=true" />
+
+### 6-1.觀看訓練結果圖
+```python
+!ls -lah "/content/drive/MyDrive/yolo_project/exp14" | grep -E "\.png|\.jpg" || true
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-1.png?raw=true" />
+
+### 6-1.觀看訓練結果圖
+```python
+!ls -lah "/content/drive/MyDrive/yolo_project/exp14" | grep -E "\.png|\.jpg" || true
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-1.png?raw=true" />
 
 
 
