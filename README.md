@@ -104,11 +104,6 @@ EXP_DIR = "/content/drive/MyDrive/yolo_project/exp14"  # <<< 如果不是 exp1�
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_5-2.png?raw=true" />
 
 ### 5-3.檢查 weights 是否存在
-報告最重要產物就是：
-- `best.pt`（最佳權重）
-- `results.png`（訓練曲線）
-- `confusion_matrix.png`（類別混淆）
-這些就是你報告的「實驗結果圖」。
 ```python
 !ls -lah "/content/drive/MyDrive/yolo_project/exp14/weights"
 ```
@@ -121,6 +116,11 @@ EXP_DIR = "/content/drive/MyDrive/yolo_project/exp14"  # <<< 如果不是 exp1�
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-1.png?raw=true" />
 
 ### 6-2.顯示圖片
+報告最重要產物就是：
+- `best.pt`（最佳權重）
+- `results.png`（訓練曲線）
+- `confusion_matrix.png`（類別混淆）
+這些就是你報告的「實驗結果圖」。
 ```python
 from pathlib import Path
 from PIL import Image
@@ -142,6 +142,58 @@ for f in files:
         plt.show()
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-2.png?raw=true" />
+輸出**結果**:整個訓練過程的總覽記錄
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-1.png?raw=true" />
+輸出**混淆矩陣**:哪些表情最容易被誤判成哪些表情
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-2.png?raw=true" />
+輸出**歸一化混淆矩陣**（比例版）:更容易看出每一類自己的誤判結構
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-3.png?raw=true" />
+輸出**驗證集預測結果**:拿來做報告展示、或肉眼檢查模型是不是在亂框/漏框，通常可視為「驗證集的隨機樣本」
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/result-4.png?raw=true" />
+
+### 7-1.用 best.pt 做推論（predict），先用 valid/images
+```python
+from ultralytics import YOLO
+
+best = f"{EXP_DIR}/weights/best.pt"
+model = YOLO(best)
+
+SOURCE = "/content/datasets/valid/images"
+model.predict(source=SOURCE, imgsz=640, conf=0.5, max_det=100, save=True)
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_7-1.png?raw=true" />
+
+### 7-2.找推論輸出資料夾
+期末展示一定要有「實際預測框框 + 表情類別」圖片。Predict mode 也是官方標準流程。
+```python
+!ls -lt /content/runs/detect | head -n 20
+```
+```python
+!ls -lah /content/runs/detect/predict | head
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_7-2.png?raw=true" />
+
+### 8.把推論結果存回 Drive
+`runs` 在 Colab 暫存，不搬回 Drive 就沒了；而 GitHub 只需要放幾張代表性成果圖，不用放整包資料集。
+```python
+import shutil
+from datetime import datetime
+
+src = "/content/runs/detect/predict"  # <<< 改成你最新的 predict 資料夾
+dst = f"/content/drive/MyDrive/yolo_project/predict_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+shutil.copytree(src, dst, dirs_exist_ok=True)
+print("Saved to:", dst)
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_8.png?raw=true" />
+
+### 9.(可選)匯出模型（ONNX）
+**ONNX** 方便未來部署到不同平台/推論框架
+```python
+!yolo export model="/content/drive/MyDrive/yolo_project/exp1/weights/best.pt" format=onnx
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_9.png?raw=true" />
+
+---
 
 ### 6-1.觀看訓練結果圖
 ```python
