@@ -29,7 +29,7 @@
 ### 1:開 Google Colab + 開 GPU
 Colab：執行階段 → 變更執行階段類型 → 硬體加速器選 GPU
 YOLOv8 訓練是大量矩陣運算，需要顧及訓練速度
-<img width="1359" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_1.png" />
+<img width="900" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_1.png" />
 
 ### 2:掛載 Google Drive
 Colab 的 /content 是暫存，重開就清掉；Drive 才能保存：
@@ -40,7 +40,7 @@ Colab 的 /content 是暫存，重開就清掉；Drive 才能保存：
 from google.colab import drive
 drive.mount('/content/drive')
 ```
-<img width="1359" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_2.png?raw=true" />
+<img width="900" height="600" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_2.png?raw=true" />
 
 ### 3:安裝 YOLOv8（Ultralytics）
 Ultralytics 提供一整套流程（train/val/predict/export），你才能用最標準的方式完成作業並寫得有依據。
