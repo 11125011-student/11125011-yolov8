@@ -211,7 +211,7 @@ Ultralytics 在訓練與驗證階段通常會輸出以下指標（可直接引�
 
 ---
 
-## 五、討論：本方法的優勢與限制
+## 五、討論：優勢與限制
 
 ### 優勢
 - 一個模型同時做到 **多臉定位 + 表情分類**
@@ -224,174 +224,21 @@ Ultralytics 在訓練與驗證階段通常會輸出以下指標（可直接引�
 
 ---
 
-### 6-1.觀看訓練結果圖
-```python
-!ls -lah "/content/drive/MyDrive/yolo_project/exp14" | grep -E "\.png|\.jpg" || true
-```
-<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-1.png?raw=true" />
+## 六、未來與延伸
 
-### 6-1.觀看訓練結果圖
-```python
-!ls -lah "/content/drive/MyDrive/yolo_project/exp14" | grep -E "\.png|\.jpg" || true
-```
-<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_6-1.png?raw=true" />
+- 增加訓練 epochs、嘗試 yolov8s/m
+- 針對類別不平衡：加權、重採樣、蒐集更多少數類別資料
+- 兩階段架構：先用人臉偵測器（或人臉對齊）→ 再做表情分類（通常更穩）
+- 若要影片即時：調整 conf、max_det，並評估 FPS 與延遲
 
+--- 
 
+## 七、實作心得
 
+這次以 YOLOv8 進行人臉表情辨識的實作，讓我第一次把「表情分類」從單一人臉的影像分類，提升到更貼近真實情境的「多臉偵測＋表情判別」。
 
+在 Colab 上從資料集解壓、檢查 data.yaml、設定 epochs/imgsz/batch，到完成訓練與推論，我更清楚 YOLO 流程其實是一套可重現的工程：資料結構決定能否訓練、超參數影響速度與精度，而輸出檔（results、confusion_matrix、val_batch0_pred）則是理解模型行為的關鍵。results 曲線讓我看到 loss 下降與 mAP 變化的關係；混淆矩陣則直接揭露哪些表情最容易互相誤判（例如 neutral 與輕微微笑類），提醒我「準確率」之外更要看錯在哪裡。從 val_batch0_pred 的視覺化，我也發現即便框抓得到臉，分類仍可能受角度、遮擋、光線與表情細微差異影響。
 
----
+整體而言，YOLOv8 的優勢是速度快、端到端易部署，但限制也很明顯：資料不平衡與標註一致性會放大錯誤。未來我會嘗試增加訓練輪數、改用較大模型、做類別平衡與更精細的增強，甚至採兩階段（先人臉偵測再表情分類）來提升穩定性。
 
-## 步驟 2：獲取並載入資料集
-
-我們使用內建的 **Olivetti Faces** 資料集。這個資料庫包含 40 個人、每人 10 張（共 400 張）64x64 像素的灰階照片。系統會自動下載並將圖像像素歸一化處理。
-
-```python
-print("正在載入 Olivetti Faces 資料集...")
-faces = fetch_olivetti_faces()
-
-# X 為特徵數據 (400張圖像，每張已被攤平成 4096 個像素點)
-# y 為目標標籤 (代表 40 個不同的人，編號 0-39)
-X = faces.data
-y = faces.target
-
-print(f"資料載入完成！共有 {X.shape[0]} 張圖像，每張圖像特徵數：{X.shape[1]}")
-
-```
-<img width="1283" height="575" alt="s2" src="https://github.com/user-attachments/assets/334a8e3a-2342-46e0-988f-99b78c72b61f" />
-
----
-
-## 步驟 3：分割訓練集與測試集
-
-為了驗證模型的好壞，我們將資料分為兩部分：**訓練集**（讓機器學習）與**測試集**（檢查機器學得好不好）。這裡我們採用 8:2 的比例進行分割。
-
-```python
-# 使用 stratify=y 確保訓練集和測試集中每一類人的比例均勻
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y
-)
-
-print(f"訓練樣本數: {len(X_train)}")
-print(f"測試樣本數: {len(X_test)}")
-
-```
-<img width="841" height="143" alt="s3" src="https://github.com/user-attachments/assets/9ae26eea-9038-4525-83f4-bbbbbb9dff03" />
-
----
-
-## 步驟 4：建立人工神經網路 (ANN) 模型
-
-我們使用 `MLPClassifier` (多層感知器)。這是一種經典的人工神經網路。我們設定 200 個隱藏層神經元，並使用 `logistic` 激活函數。
-
-```python
-n_neurons = 200  # 設定隱藏層神經元數量
-
-model = MLPClassifier(
-    hidden_layer_sizes=(n_neurons,), 
-    solver='adam',           # 優化演算法
-    activation='logistic',   # 激活函數
-    batch_size=1,            # 每次處理一個樣本
-    early_stopping=True,     # 當驗證分數不再提升時提早停止，避免過擬合
-    random_state=42,
-    max_iter=500             # 最大迭代次數
-)
-
-```
-<img width="886" height="375" alt="s4" src="https://github.com/user-attachments/assets/e7591b41-0da1-4269-a0b3-ddad732167fe" />
-
----
-
-## 步驟 5：訓練模型
-
-將訓練集的數據餵入模型。此時神經網路會不斷調整內部的權重，以試圖準確地將圖像像素與正確的身份標籤對應起來。
-
-```python
-print("模型訓練開始，請稍候...")
-model.fit(X_train, y_train)
-print("模型訓練完成！")
-
-```
-<img width="459" height="216" alt="s5" src="https://github.com/user-attachments/assets/13a7b590-a99a-44cb-8580-27a027633ebb" />
-
----
-
-## 步驟 6：預測與效能評估
-
-我們讓模型嘗試辨識它從未看過的測試集圖像，並輸出詳細的分類報告（包括準確度、召回率等指標）。
-
-```python
-# 進行預測
-y_pred = model.predict(X_test)
-
-# 顯示分類報告
-print("\n--- 識別效能報告 ---")
-print(classification_report(y_test, y_pred))
-
-```
-<img width="742" height="614" alt="s6" src="https://github.com/user-attachments/assets/ebf47d7f-dc24-4d00-a6df-7c5771327022" />
-
----
-
-## 步驟 7：可視化混淆矩陣
-
-混淆矩陣可以讓我們直觀地看到哪些類別被正確識別，以及模型最容易把誰認錯（矩陣對角線越深顏色，代表準確度越高）。
-
-```python
-plt.figure(figsize=(12, 10))
-cm = confusion_matrix(y_test, y_pred)
-sns.heatmap(cm, annot=False, cmap='Greens')
-plt.title('Confusion Matrix - Olivetti Faces')
-plt.xlabel('Predicted Identity')
-plt.ylabel('True Identity')
-plt.show()
-
-```
-<img width="1273" height="710" alt="s7" src="https://github.com/user-attachments/assets/ea1e091f-f493-4cbd-9530-f24aef3e2b4e" />
-
----
-
-## 步驟 8：隨機測試結果展示
-
-最後，我們隨機從測試集中選出 5 張照片，並將模型的「預測結果 (Pred)」與「真實答案 (True)」標註在圖片上方。
-
-```python
-plt.figure(figsize=(15, 5))
-indices = np.random.choice(len(X_test), 5, replace=False)
-
-for i, idx in enumerate(indices):
-    plt.subplot(1, 5, i + 1)
-    plt.imshow(X_test[idx].reshape(64, 64), cmap='gray')
-    plt.title(f"True ID: {y_test[idx]}\nPred ID: {y_pred[idx]}")
-    plt.axis('off')
-
-plt.tight_layout()
-plt.show()
-
-```
-<img width="1359" height="595" alt="s8" src="https://github.com/user-attachments/assets/ef0360c1-cd2a-4216-9c0a-2531c23ab77e" />
-
-
----
-
-### **實作心得**
-
-在這次的機器學習實作中，我們選擇了 **Olivetti Faces** 作為開發的核心資料庫。雖然這是一個規模相對輕量、且預處理完善的資料集，但對我們而言，這正是一個極佳的切入點，讓我們能拋開繁雜的資料清洗過程，將核心精力專注於 **人工神經網路 (ANN)** 的底層建構與運算邏輯。
-
-#### **從理論到實踐：建構 ANN 模型**
-
-透過這次報告，我們深刻體會到建立一個 ANN 模型並非單純地撰寫程式碼，而是一場關於「參數設計」與「邏輯推演」的過程。在定義 `MLPClassifier` 的過程中，我們學習到了：
-
-* **隱藏層的配置**：如何決定神經元的數量以平衡運算效能與識別準確度。
-* **激活函數的影響**：理解 `logistic` 或 `relu` 等函數如何幫助神經網路處理非線性的人臉特徵。
-* **權重優化的關鍵**：學習到 `adam` 等優化器如何在訓練過程中，透過反向傳播不斷修正誤差，最終讓模型從一堆模糊的像素點中辨識出正確的身分。
-
-#### **訓練過程中的挑戰與體會**
-
-在訓練模型的階段，看著模型從最初的低準確率，隨著訓練輪數（Epochs）增加而逐漸收斂，這種從數據中發現模式的過程讓我非常有成就感。尤其是在分析「混淆矩陣」時，我們觀察到機器是如何區分細微的臉部差異，這讓我們對機器學習中的「特徵提取」有了實質的認知，而不僅僅停留在課本上的名詞解釋。
-
-#### **受益良多的學習成果**
-
-這次的實作讓我受益匪淺，最大的收穫在於我們跨越了「從無到有」的門檻。在 **Google Colab** 環境下，利用輕量級資料庫進行快速迭代與驗證，讓我們建立了一套完整的開發工作流：從資料載入、訓練集分割、模型調優到最後的視覺化驗證。這不僅鍛鍊了我們的 Python 實作能力，更為我們未來挑戰更大規模的影像處理（如 CNN 卷積神經網路）奠定了紮實的基礎。
-
----
+同時，把流程整理到 GitHub 也讓我體會「研究可重現」的重要，這不只是完成作業，而是把實驗變成能被他人理解與延伸的作品。
