@@ -7,22 +7,26 @@ md
 
 ---
 
-## 1.目標
+## 一、目標
 
 - 以 YOLOv8 完成 **臉部表情偵測（Object Detection）**
 - 輸出：臉部位置（bbox） + 表情類別 + confidence
 
 ---
 
-## 2.工具
+## 二、工具
 
 - 平台：Google Colab
 - 深度學習架構：Ultralytics YOLOv8
 - 資料集來源：<src="https://universe.roboflow.com/emotions-dectection/human-face-emotions/dataset/30/download/yolov8" />
 - 資料參考:<src="https://docs.ultralytics.com/modes/train/" />
-- <a href="[your-repo.github.io](https://docs.ultralytics.com/modes/train/)">Ultralytics YOLO Docs</a>
 
-## 步驟 1：導入必要的函式庫
+---
+
+## 三、實際步驟 
+### 1：開 Google Colab + 開 GPU
+
+Colab：執行階段 → 變更執行階段類型 → 硬體加速器選 GPU
 
 首先，我們需要載入用於數據處理、繪圖以及機器學習的核心套件。我們使用的是 `scikit-learn`，它是 Python 中最流行的機器學習工具箱。
 
