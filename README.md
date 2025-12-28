@@ -42,7 +42,7 @@ drive.mount('/content/drive')
 ```
 <img width="900" height="600" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_2.png?raw=true" />
 
-### 3:安裝 YOLOv8（Ultralytics）
+### 3 : 安裝 YOLOv8（Ultralytics）
 Ultralytics 提供一整套流程（train/val/predict/export），你才能用最標準的方式完成作業並寫得有依據。
 ```python
 !pip install ultralytics
@@ -195,7 +195,7 @@ print("Saved to:", dst)
 
 ---
 
-## 四、評估方式與結果呈現建議
+## 四、評估方式與建議
 
 Ultralytics 在訓練與驗證階段通常會輸出以下指標（可直接引用 runs/exp*/results.png）：
 
@@ -211,7 +211,7 @@ Ultralytics 在訓練與驗證階段通常會輸出以下指標（可直接引�
 
 ---
 
-## 五、討論：優勢與限制
+## 五、優勢與限制
 
 ### 1:優勢
 - 一個模型同時做到 **多臉定位 + 表情分類**
@@ -224,7 +224,7 @@ Ultralytics 在訓練與驗證階段通常會輸出以下指標（可直接引�
 
 ---
 
-## 六、未來與延伸
+## 六、延伸
 
 - 增加訓練 epochs、嘗試 yolov8s/m
 - 針對類別不平衡：加權、重採樣、蒐集更多少數類別資料
