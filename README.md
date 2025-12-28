@@ -32,9 +32,9 @@ YOLOv8 訓練是大量矩陣運算，需要顧及訓練速度
 <img width="900" height="900" alt="s8" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_1.png" />
 
 ### 2:掛載 Google Drive
-Colab 的 /content 是暫存，重開就清掉；Drive 才能保存：
-- 資料集 zip
-- 訓練產出的 best.pt、曲線圖、混淆矩陣
+Colab 的 ˋcontentˋ 是暫存，重開就清掉；Drive 才能保存：
+- 資料集 ˋzipˋ
+- 訓練產出的 ˋbest.ptˋ、曲線圖、混淆矩陣
 - 推論結果圖片（方便放到 GitHub）
 ```python
 from google.colab import drive
@@ -51,7 +51,7 @@ Ultralytics 提供一整套流程（train/val/predict/export），你才能用�
 
 ### 4-1.預先建立資料夾，以免解壓後找不到路徑
 - YOLO 訓練需要固定的資料夾結構（images/labels + train/val 或 valid）
-- 路徑固定後，data.yaml 才不會一直找不到（這是新手最常卡的點）
+- 路徑固定後，ˋdata.yamlˋ 才不會一直找不到（這是新手最常卡的點）
 ```python
 !mkdir -p /content/datasets
 !unzip -q "/content/drive/MyDrive/AI_114/Emotions.zip" -d /content/datasets
@@ -66,15 +66,66 @@ Ultralytics 提供一整套流程（train/val/predict/export），你才能用�
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-2.png?raw=true" />
 
 ### 4-3.檢查路徑與類別
-Ultralytics 會靠 YAML 讀到：
+Ultralytics 會靠 ˋYAMLˋ 讀到：
 - train/val（或 valid）路徑
-- 類別數 nc
-- 類別名稱 names
+- 類別數 ˋncˋ
+- 類別名稱 ˋnamesˋ
 沒有或寫錯就會直接 train 失敗。
 ```python
 !cat /content/datasets/data.yaml
 ```
 <img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-3.png?raw=true" />
+
+### 5-1.開始訓練
+- 用 yolov8n：在 Colab 時間/資源有限時，先跑通流程、先有成果，再談調參。
+- epochs=10：作業展示用；若要提升精度再加 epochs。
+- imgsz=640：偵測常用解析度，太小可能抓不到臉部細節，太大訓練慢。
+- batch=8：配合 GPU 顯存，避免 OOM。
+```python
+!yolo task=detect \
+  mode=train \
+  model=yolov8n.pt \
+  data=/content/datasets/data.yaml \
+  epochs=10 \
+  imgsz=640 \
+  batch=8 \
+  project=/content/drive/MyDrive/yolo_project \
+  name=exp1
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_5-1.png?raw=true" />
+
+### 5-2.確認訓練輸出資料夾
+```python
+!ls -lah "/content/drive/MyDrive/yolo_project"
+```
+```python
+EXP_DIR = "/content/drive/MyDrive/yolo_project/exp14"  # <<< 如果不是 exp1，改成你實際那個資料夾
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_5-2.png?raw=true" />
+
+### 5-3.檢查 weights 是否存在
+報告最重要產物就是：
+- ˋbest.ptˋ（最佳權重）
+- ˋresults.pngˋ（訓練曲線）
+- ˋconfusion_matrix.pngˋ（類別混淆）
+```python
+!ls -lah "/content/drive/MyDrive/yolo_project/exp14/weights"
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_5-3.png?raw=true" />
+
+### 4-3.檢查路徑與類別
+Ultralytics 會靠 ˋYAMLˋ 讀到：
+- train/val（或 valid）路徑
+- 類別數 ˋncˋ
+- 類別名稱 ˋnamesˋ
+沒有或寫錯就會直接 train 失敗。
+```python
+!cat /content/datasets/data.yaml
+```
+<img width="935" height="268" alt="s1" src="https://github.com/11125011-student/11125011-yolov8/blob/main/yolo_v8_4-3.png?raw=true" />
+
+### 
+
 
 
 
